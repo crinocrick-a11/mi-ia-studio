@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101018">
+<title>Mi IA Studio</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#101018;color:#fff;
+ font-family:Arial,sans-serif;
+}
+header{
+ padding:22px 18px;background:#191925;
+ border-bottom:1px solid #333;
+}
+h1{margin:0;color:#c49aff;font-size:25px}
+header p{color:#aaa;margin:7px 0 0;font-size:13px}
+main{padding:18px;max-width:700px;margin:auto}
+h2{font-size:18px;margin-top:25px}
+.panel{
+ background:#1c1c29;border:1px solid #343447;
+ border-radius:14px;padding:16px;margin-bottom:16px;
+}
+label{display:block;margin-bottom:9px;color:#ddd}
+textarea,select{
+ width:100%;background:#11111a;color:white;
+ border:1px solid #49495d;border-radius:9px;
+ padding:12px;font-size:15px;margin-bottom:15px;
+}
+textarea{min-height:105px;resize:vertical}
+button{
+ border:0;border-radius:10px;padding:13px;
+ font-size:15px;font-weight:bold;cursor:pointer;
+}
+.primary{background:#a879e8;color:#140d20;width:100%}
+.secondary{background:#343447;color:white;width:100%}
+.upload{
+ display:block;text-align:center;padding:20px;
+ border:2px dashed #77718c;border-radius:12px;
+ color:#d2b9ff;cursor:pointer;
+}
+#file{display:none}
+#preview{
+ display:none;width:100%;max-height:390px;
+ object-fit:contain;border-radius:12px;margin-top:15px;
+ background:#111;
+}
+.status{color:#c9b5e9;font-size:13px;line-height:1.5}
+footer{text-align:center;color:#888;font-size:12px;padding:25px}
+</style>
+</head>
+
+<body>
+<header>
+<h1>✦ Mi IA Studio</h1>
+<p>Tu espacio creativo de inteligencia artificial</p>
+</header>
+
+<main>
+
+<div class="panel">
+<h2>✧ Crear una imagen</h2>
+<label for="prompt">Describe la imagen que quieres crear</label>
+<textarea id="prompt" placeholder="Ejemplo: personaje de fantasía hiperrealista, iluminación cinematográfica, detalles realistas..."></textarea>
+
+<label for="style">Estilo de imagen</label>
+<select id="style">
+<option>Hiperrealista</option>
+<option>Fotografía cinematográfica</option>
+<option>Ilustración digital</option>
+<option>Anime</option>
+<option>Fantasía realista</option>
+</select>
+
+<label for="quality">Calidad deseada</label>
+<select id="quality">
+<option>Alta</option>
+<option>Media</option>
+<option>Máxima disponible</option>
+</select>
+
+<button class="primary" onclick="generate()">
+✦ Generar imagen
+</button>
+<p class="status" id="generationStatus">
+Motor de inteligencia artificial pendiente de conectar.
+</p>
+</div>
+
+<div class="panel">
+<h2>✧ Editar una imagen</h2>
+<label class="upload" for="file">
+＋ Seleccionar una imagen de tu celular
+</label>
+<input id="file" type="file" accept="image/*">
+
+<img id="preview" alt="Vista previa de tu imagen">
+
+<label for="editPrompt">¿Qué quieres modificar?</label>
+<textarea id="editPrompt" placeholder="Ejemplo: convertir esta ilustración en una imagen hiperrealista..."></textarea>
+
+<button class="secondary" onclick="editImage()">
+✧ Transformar imagen
+</button>
+<p class="status" id="editStatus">
+Editor preparado. Falta conectar el modelo de edición.
+</p>
+</div>
+
+<div class="panel">
+<h2>✧ Herramientas</h2>
+<button class="secondary" onclick="upscale()">
+Mejorar resolución
+</button>
+<br><br>
+<button class="secondary" onclick="clearAll()">
+Limpiar espacio de trabajo
+</button>
+</div>
+
+</main>
+
+<footer>
+Mi IA Studio · Proyecto independiente
+</footer>
+
+<script>
+const fileInput=document.getElementById("file");
+const preview=document.getElementById("preview");
+
+fileInput.addEventListener("change",function(){
+ const file=this.files[0];
+ if(!file)return;
+ if(!file.type.startsWith("image/")){
+ alert("Selecciona una imagen válida.");
+ return;
+ }
+ preview.src=URL.createObjectURL(file);
+ preview.style.display="block";
+ document.getElementById("editStatus").textContent=
+ "Imagen cargada correctamente. Lista para conectar el editor IA.";
+});
+
+function generate(){
+ const prompt=document.getElementById("prompt").value.trim();
+ if(!prompt){
+ alert("Primero describe la imagen que quieres crear.");
+ return;
+ }
+ document.getElementById("generationStatus").textContent=
+ "Tu descripción está preparada. Próximo paso: conectar el motor de generación IA.";
+}
+
+function editImage(){
+ if(!fileInput.files.length){
+ alert("Primero selecciona una imagen.");
+ return;
+ }
+ const instruction=document.getElementById("editPrompt").value.trim();
+ if(!instruction){
+ alert("Describe qué quieres modificar.");
+ return;
+ }
+ document.getElementById("editStatus").textContent=
+ "Instrucción preparada. Próximo paso: conectar el modelo de edición.";
+}
+
+function upscale(){
+ alert("La herramienta de mejora estará disponible cuando conectemos el modelo de superresolución.");
+}
+
+function clearAll(){
+ document.getElementById("prompt").value="";
+ document.getElementById("editPrompt").value="";
+ fileInput.value="";
+ preview.removeAttribute("src");
+ preview.style.display="none";
+ document.getElementById("generationStatus").textContent=
+ "Motor de inteligencia artificial pendiente de conectar.";
+ document.getElementById("editStatus").textContent=
+ "Editor preparado. Falta conectar el modelo de edición.";
+}
+</script>
+</body>
+</html>
